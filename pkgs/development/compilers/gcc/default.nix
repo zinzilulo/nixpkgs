@@ -59,6 +59,7 @@
   callPackage,
   majorMinorVersion,
   apple-sdk,
+  apple-sdk_15,
   darwin,
 }:
 
@@ -128,6 +129,7 @@ let
     # inherit generated with 'nix eval --json --impure --expr "with import ./. {}; lib.attrNames (lib.functionArgs gcc${majorVersion}.cc.override)" | jq '.[]' --raw-output'
     inherit
       apple-sdk
+      apple-sdk_15
       autoconf269
       binutils
       buildPackages
@@ -374,6 +376,10 @@ pipe
         LIBRARY_PATH = optionals hostIsTarget (makeLibraryPath (optional (zlib != null) zlib));
 
         NIX_LDFLAGS = optionalString hostPlatform.isSunOS "-lm";
+
+        NIX_CFLAGS_COMPILE = optionalString (
+          hostPlatform.isDarwin && langAda
+        ) "-isysroot ${apple-sdk_15.sdkroot}";
 
         inherit (callFile ./common/extra-target-flags.nix { })
           EXTRA_FLAGS_FOR_TARGET

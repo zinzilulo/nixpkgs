@@ -9,6 +9,7 @@
   version,
 
   apple-sdk,
+  apple-sdk_15,
   binutils,
   gmp,
   mpfr,
@@ -52,6 +53,8 @@ let
     hostPlatform
     targetPlatform
     ;
+
+  appleSdk = if langAda then apple-sdk_15 else apple-sdk;
 
   # See https://github.com/NixOS/nixpkgs/pull/209870#issuecomment-1500550903
   disableBootstrap' = disableBootstrap && !langFortran && !langGo;
@@ -175,7 +178,8 @@ let
       # We pick "/" path to effectively avoid sysroot offset and make it work
       # as a native case.
       # Darwin requires using the SDK as the sysroot for `SDKROOT` to work correctly.
-      "--with-build-sysroot=${if targetPlatform.isDarwin then apple-sdk.sdkroot else "/"}"
+      "--with-sysroot=${if targetPlatform.isDarwin then appleSdk.sdkroot else "/"}"
+      "--with-build-sysroot=${if targetPlatform.isDarwin then appleSdk.sdkroot else "/"}"
       # Same with the stdlibc++ headers embedded in the gcc output
       "--with-gxx-include-dir=${placeholder "out"}/include/c++/${version}/"
     ]
