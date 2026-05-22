@@ -3837,9 +3837,12 @@ with pkgs;
           stdenv.hostPlatform == stdenv.targetPlatform
           && stdenv.buildPlatform == stdenv.hostPlatform
           && stdenv.buildPlatform.isDarwin
-          && stdenv.buildPlatform.isx86_64
         then
-          overrideCC stdenv gnat-bootstrap14
+          stdenv.override {
+            cc = gnat-bootstrap14;
+            allowedRequisites = null;
+            extraBuildInputs = lib.optional stdenv.hostPlatform.isDarwin clang.cc;
+          }
         else
           stdenv;
     }
@@ -3865,9 +3868,12 @@ with pkgs;
           stdenv.hostPlatform == stdenv.targetPlatform
           && stdenv.buildPlatform == stdenv.hostPlatform
           && stdenv.buildPlatform.isDarwin
-          && stdenv.buildPlatform.isx86_64
         then
-          overrideCC stdenv gnat-bootstrap14
+          stdenv.override {
+            cc = gnat-bootstrap14;
+            allowedRequisites = null;
+            extraBuildInputs = lib.optional stdenv.hostPlatform.isDarwin clang.cc;
+          }
         else
           stdenv;
     }
@@ -3910,9 +3916,11 @@ with pkgs;
       bintools = bintoolsDualAs;
     }
   );
+
   gnat-bootstrap14 = wrapCCWith (
     {
       cc = callPackage ../development/compilers/gnat-bootstrap { majorVersion = "14"; };
+      isAlireGNAT = true;
     }
     // lib.optionalAttrs (stdenv.hostPlatform.isDarwin) {
       bintools = bintoolsDualAs;
