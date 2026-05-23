@@ -2,7 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  gnat,
+  gnat14,
   raylib,
   alsa-lib,
   wayland,
@@ -25,7 +25,7 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   buildInputs = [
-    gnat
+    gnat14
     raylib
   ];
 
@@ -44,7 +44,7 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postBuild
   '';
 
-  postFixup = ''
+  postFixup = lib.optionals (!stdenv.hostPlatform.isDarwin) ''
     patchelf $out/bin/eepers \
       --add-needed libwayland-client.so \
       --add-needed libwayland-cursor.so \
