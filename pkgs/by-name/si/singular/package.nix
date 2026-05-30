@@ -86,6 +86,7 @@ stdenv.mkDerivation rec {
       url = "https://github.com/Singular/Singular/commit/595d7167e6e019d45d9a4f1e18ae741df1f3c41d.patch";
       hash = "sha256-hpTZy/eAiHAaleasWPAenxM35aqeNAZ//o6OqqdGOJ4=";
     })
+    ./add-xalloc.patch
   ];
 
   # For reference (last checked on commit 75f460d):

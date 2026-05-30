@@ -1,0 +1,12 @@
+diff --git a/omalloc/Makefile.am b/omalloc/Makefile.am
+index 0998d62f3..df555062e 100644
+--- a/omalloc/Makefile.am
++++ b/omalloc/Makefile.am
+@@ -5,6 +5,7 @@ lib_LTLIBRARIES=libomalloc.la
+ libomalloc_includedir=$(includedir)/omalloc
+ 
+ libomalloc_include_HEADERS = \
++xalloc.h \
+ omalloc.h		omallocClass.h          omDerivedConfig.h	\
+ omError.h		omStructs.h		omAllocDecl.h		\
+ omInlineDecl.h		omBin.h			omMemOps.h		\
